@@ -56,16 +56,6 @@ static HMODULE vklib = NULL;
 static void *vklib = NULL;
 #endif
 
-__attribute__((destructor))
-static void deinit() {
-#ifdef _WIN32
-    FreeLibrary(vklib);
-#else
-    dlclose(vklib);
-#endif
-    vklib = NULL;
-}
-
 __attribute__((constructor))
 static void init() {
 #ifdef _WIN32
