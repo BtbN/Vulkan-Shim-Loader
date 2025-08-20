@@ -97,9 +97,9 @@ for ret_type, name, params, param_names in commands:
 
     print(f"    if (likely(ptr_{name})) {{")
     if ret_type == "void":
-        print(f"        {name}({args});")
+        print(f"        ptr_{name}({args});")
     else:
-        print(f"        return {name}({args});")
+        print(f"        return ptr_{name}({args});")
     print(f"    }}")
 
     if ret_type == "VkResult":
