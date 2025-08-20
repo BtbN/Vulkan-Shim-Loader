@@ -5,5 +5,5 @@ includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
 Name: Vulkan-Loader-Shim
 Description: Shim-Loader for the Vulkan-Loader
 Version: @VULKAN_SHIM_PKG_VERSION@
-Libs: -L${libdir} -l@VULKAN_SHIM_LIB_NAME@
+Libs: -L${libdir} -l@VULKAN_SHIM_LIB_NAME@ @VULKAN_SHIM_LIB_DEPS@
 Cflags: -I${includedir}
