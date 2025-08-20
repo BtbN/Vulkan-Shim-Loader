@@ -19,6 +19,11 @@ add_custom_command(
   VERBATIM)
 
 add_library(vulkan-shim STATIC "${GENERATED_LOADER}")
+if(WIN32)
+  target_link_libraries(vulkan-shim PUBLIC kernel32)
+else()
+  target_link_libraries(vulkan-shim PUBLIC ${CMAKE_DL_LIBS})
+endif()
 
 if(VULKAN_SHIM_IMPERSONATE)
   if(WIN32)
