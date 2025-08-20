@@ -80,7 +80,7 @@ static void init() {
 """)
 
 for ret_type, name, params, param_names in commands:
-    print(f'    ptr_{name} = dlsym(vklib, "{name}");')
+    print(f'    ptr_{name} = (PFN_{name})dlsym(vklib, "{name}");')
 
 print("""
 #ifdef _WIN32
