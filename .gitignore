@@ -1,0 +1,4 @@
+build/
+loader.c
+loader.o
+loader.a
