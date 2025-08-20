@@ -1,0 +1,7 @@
+Automatically generated Shim-Loader that loads the actual Vulkan-Loader.
+Intended primarily to be able to properly statically link the Vulkan-Loader without introducing a hard dependency on it at runtime.
+
+Can either be built in normal mode, in which a vulkan-shim library and .pc file is generated, or in impersonation mode,
+where it does its best to pose as the actual Vulkan-Loader and to be detected as such.
+
+Enable impersonation-mode via -DVULKAN_SHIM_IMPERSONATE=ON cmake option.
