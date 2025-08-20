@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.22.1)
 project(VulkanShimLoader C)
 
+option(VULKAN_SHIM_IMPERSONATE "Impersonate the real Vulkan-Loader" OFF)
+
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
@@ -16,7 +18,6 @@ add_custom_command(
   DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/gen_shim.py" "${CMAKE_CURRENT_SOURCE_DIR}/Vulkan-Headers/registry/vk.xml"
   VERBATIM)
 
-option(VULKAN_SHIM_IMPERSONATE "Impersonate the real Vulkan-Loader" OFF)
 add_library(vulkan-shim STATIC "${GENERATED_LOADER}")
 
 if(VULKAN_SHIM_IMPERSONATE)
