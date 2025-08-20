@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.22.1)
 project(VulkanShimLoader C)
 
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
@@ -10,11 +10,34 @@ add_custom_command(
   VERBATIM
 )
 
+option(VULKAN_SHIM_IMPERSONATE "Impersonate the real Vulkan-Loader" OFF)
 add_library(vulkan-shim STATIC ${GENERATED_LOADER})
-set_target_properties(vulkan-shim PROPERTIES OUTPUT_NAME "vulkan-shim")
+
+if(VULKAN_SHIM_IMPERSONATE)
+  set(VULKAN_SHIM_LIB_NAME vulkan)
+else()
+  set(VULKAN_SHIM_LIB_NAME vulkan-shim)
+endif()
+set_target_properties(vulkan-shim PROPERTIES OUTPUT_NAME "${VULKAN_SHIM_LIB_NAME}")
 target_include_directories(vulkan-shim PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Vulkan-Headers/include)
 
 include(GNUInstallDirs)
 install(TARGETS vulkan-shim
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
+
+add_subdirectory(Vulkan-Headers)
+get_directory_property(VK_VERSION_STRING DIRECTORY Vulkan-Headers DEFINITION VK_VERSION_STRING)
+message(STATUS "Vulkan-Headers version: ${VK_VERSION_STRING}")
+
+set(VULKAN_SHIM_PKG_VERSION ${VK_VERSION_STRING})
+if(VULKAN_SHIM_IMPERSONATE)
+  set(VULKAN_SHIM_PKG_LIBNAME vulkan)
+else()
+  set(VULKAN_SHIM_PKG_LIBNAME vulkan-shim)
+endif()
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/vulkan-shim.pc.in
+               ${CMAKE_CURRENT_BINARY_DIR}/${VULKAN_SHIM_PKG_LIBNAME}.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${VULKAN_SHIM_PKG_LIBNAME}.pc
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)

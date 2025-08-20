@@ -1,0 +1,8 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+
+Name: Vulkan-Loader-Shim
+Version: @VULKAN_SHIM_PKG_VERSION@
+Libs: -L${libdir} -l@VULKAN_SHIM_LIB_NAME@
+Cflags: -I${includedir}
