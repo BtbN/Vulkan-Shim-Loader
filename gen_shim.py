@@ -4,6 +4,9 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 
+if len(sys.argv) > 1:
+    sys.stdout = open(sys.argv[1], "w")
+
 os.chdir(os.path.dirname(__file__))
 
 # Don't forget to fetch the submodule.
